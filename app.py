@@ -71,8 +71,8 @@ df = carregar_dados()
 st.sidebar.header("Filtros de Análise")
 
 regiao = st.sidebar.selectbox(
-    "Filtrar por Região Geográfica:",
-    options=["Todas"] + sorted(df["regiao_geografica"].unique().tolist()),
+    "Filtrar por Região Geográfic:",
+    options=["Todas"] + sorted(df["REGIAO GEOGRÁFICA"].unique().tolist()),
     index=0
 )
 
