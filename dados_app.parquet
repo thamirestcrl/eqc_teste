@@ -7,7 +7,7 @@ import pandas as pd
 
 # 1. Definir os nomes dos arquivos
 arquivo_excel = "data/MICRODADOS_DE_VIOLÊNCIA_DOMÉSTICA_JAN_2015_A_SET_2025.xlsx"
-arquivo_otimizado = "data/dados_app.parquet"
+arquivo_otimizado = "dados_app.parquet"
 
 print("Lendo o arquivo Excel (isso pode demorar um pouco)...")
 
