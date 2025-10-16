@@ -15,13 +15,14 @@ st.set_page_config(
 # Usar cache para carregar os dados apenas uma vez, melhorando a performance
 @st.cache_data
 def carregar_dados():
-    # ALTERAÇÃO IMPORTANTE: Ler o ficheiro Excel diretamente
-    # Certifique-se de que o nome do ficheiro corresponde EXATAMENTE ao seu.
+    # --- CORREÇÃO FINAL AQUI ---
+    # Definimos a variável com o caminho completo do ficheiro.
     caminho_do_ficheiro = "data/MICRODADOS_DE_VIOLÊNCIA_DOMÉSTICA_JAN_2015_A_SET_2025.xlsx"
     
-    df_bruto = pd.read_excel(nome_do_ficheiro_excel, sheet_name="Plan1")
+    # Usamos EXATAMENTE A MESMA variável na linha seguinte para ler o ficheiro.
+    df_bruto = pd.read_excel(caminho_do_ficheiro, sheet_name="Plan1")
     
-    # --- Limpeza de dados (anteriormente em preparar_dados.py) ---
+    # --- Limpeza de dados ---
     df = df_bruto.copy()
     df.columns = (
         df.columns.str.lower()
@@ -47,7 +48,7 @@ def carregar_dados():
     colunas_necessarias = ["ano", "natureza", "regiao_geografica"]
     df_final = df_limpo[colunas_necessarias]
     
-    return df_final
+    return df_fina
 
 df = carregar_dados()
 
