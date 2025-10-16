@@ -48,7 +48,7 @@ def carregar_dados():
     colunas_necessarias = ["ano", "natureza", "regiao_geografica"]
     df_final = df_limpo[colunas_necessarias]
     
-    return df_fina
+    return df_final
 
 df = carregar_dados()
 
