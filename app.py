@@ -13,24 +13,31 @@ st.set_page_config(
 )
 
 # Usar cache para carregar os dados apenas uma vez, melhorando a performance
+# app.py
+
+# ... (código anterior, como import streamlit as st) ...
+
 @st.cache_data
 def carregar_dados():
-    # --- CORREÇÃO FINAL AQUI ---
-    # Definimos a variável com o caminho completo do ficheiro.
     caminho_do_ficheiro = "data/MICRODADOS_DE_VIOLÊNCIA_DOMÉSTICA_JAN_2015_A_SET_2025.xlsx"
-    
-    # Usamos EXATAMENTE A MESMA variável na linha seguinte para ler o ficheiro.
     df_bruto = pd.read_excel(caminho_do_ficheiro, sheet_name="Plan1")
     
-    # --- Limpeza de dados ---
     df = df_bruto.copy()
-    df.columns = (
-        df.columns.str.lower()
-        .str.replace(" ", "_", regex=False)
-        .str.normalize("NFKD")
-        .str.encode("ascii", errors="ignore")
-        .decode("utf-8")
-    )
+    
+    # --- CORREÇÃO DEFINITIVA DA LIMPEZA DOS NOMES DAS COLUNAS ---
+    # Criamos uma lista com os nomes das colunas limpos, um a um.
+    # Este método é mais robusto e corrige o erro anterior.
+    novas_colunas = []
+    for col in df.columns:
+        nome_limpo = str(col).lower().replace(" ", "_")
+        nome_limpo = (
+            nome_limpo.encode("ascii", "ignore")
+            .decode("utf-8", "ignore")
+        )
+        novas_colunas.append(nome_limpo)
+    
+    df.columns = novas_colunas
+    # --- FIM DA CORREÇÃO ---
 
     if "data_do_fato" in df.columns:
         df.rename(columns={"data_do_fato": "data"}, inplace=True)
@@ -45,11 +52,17 @@ def carregar_dados():
     df_limpo = df_limpo[df_limpo["ano"] < 2025].copy()
     df_limpo['ano'] = df_limpo['ano'].astype(int)
 
+    # Verifica se a coluna 'regiao_geografica' existe após a limpeza
+    if 'regiao_geografica' not in df_limpo.columns:
+        st.error("A coluna 'regiao_geografica' não foi encontrada no ficheiro Excel. Verifique o nome da coluna no ficheiro original.")
+        return pd.DataFrame() # Retorna um dataframe vazio para evitar mais erros
+
     colunas_necessarias = ["ano", "natureza", "regiao_geografica"]
     df_final = df_limpo[colunas_necessarias]
     
     return df_final
 
+# ... (o resto do seu app.py continua igual) ...
 df = carregar_dados()
 
 # --- BARRA LATERAL (SIDEBAR) ---
