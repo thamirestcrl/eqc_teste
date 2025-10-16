@@ -17,7 +17,7 @@ st.set_page_config(
 def carregar_dados():
     # ALTERAÇÃO IMPORTANTE: Ler o ficheiro Excel diretamente
     # Certifique-se de que o nome do ficheiro corresponde EXATAMENTE ao seu.
-    nome_do_ficheiro_excel = "MICRODADOS_DE_VIOLÊNCIA_DOMÉSTICA_JAN_2015_A_SET_2025.xlsx"
+    caminho_do_ficheiro = "data/MICRODADOS_DE_VIOLÊNCIA_DOMÉSTICA_JAN_2015_A_SET_2025.xlsx"
     
     df_bruto = pd.read_excel(nome_do_ficheiro_excel, sheet_name="Plan1")
     
