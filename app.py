@@ -71,7 +71,7 @@ df = carregar_dados()
 st.sidebar.header("Filtros de Análise")
 
 regiao = st.sidebar.selectbox(
-    "Filtrar por Região Geográfic:",
+    "Filtrar por Região Geográfica:",
     options=["Todas"] + sorted(df["REGIAO GEOGRÁFICA"].unique().tolist()),
     index=0
 )
@@ -175,7 +175,7 @@ with tab2:
 # --- ABA 3: FREQUÊNCIA REGIONAL ---
 with tab3:
     st.subheader("Frequência de Crimes por Região Geográfica")
-    frequencia_regiao = df['regiao_geografica'].value_counts()
+    frequencia_regiao = df['REGIAO GEOGRÁFICA'].value_counts()
     fig5 = px.bar(
         frequencia_regiao, 
         x=frequencia_regiao.values, 
