@@ -1,4 +1,4 @@
-# app.py (VERSÃO FINAL E CORRIGIDA)
+# app.py (VERSÃO FINAL SEM ANÁLISE REGIONAL)
 
 import streamlit as st
 import pandas as pd
@@ -49,13 +49,8 @@ def carregar_dados():
     df_limpo = df_limpo[df_limpo["ano"] < 2025].copy()
     df_limpo['ano'] = df_limpo['ano'].astype(int)
     
-    # CORREÇÃO: Usar o nome da coluna correto após a limpeza
-    if 'regiao_geogrfica' not in df_limpo.columns:
-        st.error("A coluna 'regiao_geogrfica' não foi encontrada. Verifique o nome da coluna no ficheiro Excel original.")
-        st.write("Colunas encontradas:", df_limpo.columns)
-        return pd.DataFrame()
-
-    colunas_necessarias = ["ano", "natureza", "regiao_geogrfica"]
+    # REMOVIDO: A coluna 'regiao_geografica' já não é necessária.
+    colunas_necessarias = ["ano", "natureza"]
     df_final = df_limpo[colunas_necessarias]
     
     return df_final
@@ -68,12 +63,7 @@ else:
     # --- BARRA LATERAL (SIDEBAR) ---
     st.sidebar.header("Filtros de Análise")
 
-    # CORREÇÃO: Usar o nome da coluna correto 'regiao_geogrfica'
-    regiao = st.sidebar.selectbox(
-        "Filtrar por Região Geográfica:",
-        options=["Todas"] + sorted(df["regiao_geogrfica"].unique().tolist()),
-        index=0
-    )
+    # REMOVIDO: O filtro por região foi retirado.
     
     lista_natureza = sorted(df["natureza"].unique().tolist())
     index_ameaca = lista_natureza.index("AMEACA") if "AMEACA" in lista_natureza else 0
@@ -87,21 +77,16 @@ else:
     st.sidebar.markdown("---")
     st.sidebar.info("Análise de Dados de Violência Doméstica da SDS-PE (2015-2024).")
 
-    # --- FILTRAGEM DOS DADOS ---
-    if regiao == "Todas":
-        df_filtrado = df.copy()
-    else:
-        # CORREÇÃO: Usar o nome da coluna correto 'regiao_geogrfica'
-        df_filtrado = df[df["regiao_geogrfica"] == regiao]
+    # SIMPLIFICADO: Como não há filtro, df_filtrado é simplesmente uma cópia de df.
+    df_filtrado = df.copy()
 
     # --- PAINEL PRINCIPAL ---
     st.markdown("<h1 style='color: #864ce2;'>ANÁLISE DE DADOS DE VIOLÊNCIA DE GÊNERO EM PERNAMBUCO (EQC)</h1>", unsafe_allow_html=True)
 
-    # --- ABAS (TABS) ---
-    tab1, tab2, tab3 = st.tabs([
+    # REMOVIDO: A aba "Frequência Regional" foi retirada.
+    tab1, tab2 = st.tabs([
         "Resumo & Top Crimes", 
-        "Evolução Anual", 
-        "Frequência Regional"
+        "Evolução Anual"
     ])
 
     # --- ABA 1: RESUMO & TOP CRIMES ---
@@ -171,20 +156,4 @@ else:
         )
         st.plotly_chart(fig4, use_container_width=True)
 
-    # --- ABA 3: FREQUÊNCIA REGIONAL ---
-    with tab3:
-        st.subheader("Frequência de Crimes por Região Geográfica")
-        # CORREÇÃO: Usar o nome da coluna correto 'regiao_geogrfica'
-        frequencia_regiao = df['regiao_geogrfica'].value_counts()
-        fig5 = px.bar(
-            frequencia_regiao, 
-            x=frequencia_regiao.values, 
-            y=frequencia_regiao.index, 
-            orientation='h',
-            labels={'x':'Número de Ocorrências', 'y':'Região Geográfica'},
-            title='Frequência de Crimes por Região Geográfica em PE (2015-2024)',
-            text_auto=True
-        )
-        fig5.update_layout(yaxis={'categoryorder':'total ascending'}, showlegend=False)
-        fig5.update_traces(marker_color='#007bff')
-        st.plotly_chart(fig5, use_container_width=True)
+    # REMOVIDO: O código para a Aba 3 foi completamente retirado.
