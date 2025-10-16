@@ -16,7 +16,7 @@ st.set_page_config(
 # Usar cache para carregar os dados apenas uma vez, melhorando a performance
 @st.cache_data
 def carregar_dados():
-    df = pd.read_parquet("data/dados_app.parquet")
+    df = pd.read_parquet("dados_app.parquet")
     return df
 
 df = carregar_dados()
